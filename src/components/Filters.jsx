@@ -9,7 +9,7 @@ const Filters = ({ setCategory }) => {
         <button
           key={category}
           onClick={() => setCategory(category)}
-          className="px-4 py-2 border rounded-lg text-sm text-gray-700 bg-gray-100 hover:bg-gray-200"
+          className="px-4 py-2 border rounded-lg text-sm text-white bg-gray-400  hover:bg-gray-500 transition-colors duration-300"
         >
           {category}
         </button>
