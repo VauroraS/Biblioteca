@@ -1,12 +1,21 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Gestor from "./components/Gestor";
 
-function App() {
+const App = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <p className="text-xl font-bold text-green-600">Hello Tailwind!</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Gestor" element={<Gestor />} />
+        {/* Otras rutas */}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
+
+
 
