@@ -1,8 +1,13 @@
-# React + Vite
+## Proyecto Biblioteca - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend de la aplicación **Biblioteca**. La aplicación está desarrollada en **React** y utiliza **Tailwind CSS** para el estilo. El backend está conectado a una base de datos donde se gestionan libros, préstamos, reservas, entre otros.
 
-Currently, two official plugins are available:
+Este template proporciona una configuración mínima para que **React** funcione con **Vite**, incluyendo Hot Module Replacement (HMR) y algunas reglas de ESLint.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologías utilizadas
+
+- **React**: Biblioteca de JavaScript para la construcción de interfaces de usuario.
+- **Tailwind CSS**: Framework de CSS para crear interfaces personalizadas y rápidas.
+- **Axios**: Cliente HTTP para hacer solicitudes al backend.
+- **React Router**: Librería para la navegación y enrutamiento entre páginas en la aplicación.
+- **Vite**: Herramienta de construcción rápida para aplicaciones web modernas.
