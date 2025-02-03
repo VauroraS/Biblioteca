@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Filters from "../components/Filters";
 import BookList from "../components/BookList";
@@ -8,24 +8,27 @@ const Home = () => {
   const [category, setCategory] = useState("Todas");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(null); // Inicialmente null
 
   // Función para manejar la búsqueda
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!searchQuery.trim()) return; // No realizar la búsqueda si el campo está vacío
+
     try {
       const response = await fetch(
         `http://127.0.0.1:5000/libros?search=${searchQuery}`
       );
-      
+
       if (!response.ok) {
         throw new Error("Error al buscar libros");
       }
-  
+
       const data = await response.json();
-      setBooks(data); // Actualiza la lista con los libros encontrados
+      setBooks(data.length > 0 ? data : []); // Si no hay resultados, asignar un array vacío
     } catch (error) {
       console.error("Error en la búsqueda:", error);
+      setBooks([]); // En caso de error, asegurarse de que books no sea null
     }
   };
 
@@ -49,6 +52,7 @@ const Home = () => {
             </h1>
           </div>
         </div>
+
         {/* Campo de búsqueda */}
         <form
           onSubmit={handleSearch}
@@ -71,20 +75,32 @@ const Home = () => {
           </button>
         </form>
 
-        {/* Mostrar resultados */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-          {books.map((libro) => (
-            <div key={libro.id} className="border p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-2">{libro.titulo}</h2>
-              <p className="text-gray-600 mb-2">Autor: {libro.autor}</p>
-              <p className="text-gray-600 mb-2">Editorial: {libro.editorial}</p>
-              <p className="text-gray-600 mb-2">Año: {libro.anio_publicacion}</p>
-              <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={() => setShowLoginModal(true)}>
-                Reservar
-              </button>
-            </div>
-          ))}
-        </div>
+        {/* Mostrar resultados solo si hay libros */}
+        {books !== null && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {books.length > 0 ? (
+              books.map((libro) => (
+                <div key={libro.id} className="border p-4 rounded-lg shadow-md">
+                  <h2 className="text-xl font-semibold mb-2">{libro.titulo}</h2>
+                  <p className="text-gray-600 mb-2">Autor: {libro.autor}</p>
+                  <p className="text-gray-600 mb-2">
+                    Editorial: {libro.editorial}
+                  </p>
+                  <p className="text-gray-600 mb-2">
+                    Año: {libro.anio_publicacion}
+                  </p>
+                  <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Reservar
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">
+                No se encontraron libros para "{searchQuery}"
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Filtros por categoría */}
         <Filters setCategory={setCategory} />
@@ -99,4 +115,5 @@ const Home = () => {
 };
 
 export default Home;
+
 

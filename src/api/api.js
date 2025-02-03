@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 // Crear instancia de Axios con configuración predeterminada
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000", // URL base de la API 
@@ -28,7 +27,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error("Error en la respuesta de la API:", error.response || error.message);
-    // Puedes manejar errores específicos según el código de estado
     if (error.response?.status === 401) {
       console.warn("No autorizado. Redirigiendo al login...");
       // Realiza acciones específicas, como redirigir al login
@@ -37,28 +35,17 @@ api.interceptors.response.use(
   }
 );
 
-//mostrar datos del bibliotecario
+// Mostrar datos del bibliotecario
 export const getCurrentUser = async () => {
   try {
-    const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-    if (!token) throw new Error("Token no encontrado");
+    if (!userId) throw new Error("ID de usuario no encontrado");
 
-    const response = await fetch(`${API_URL}/bibliotecarios${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    });
+    const response = await api.get(`/bibliotecarios/${userId}`);
 
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos del usuario");
-    }
-
-    return await response.json();
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener los datos del usuario:", error);
     throw error;
   }
 };
@@ -82,5 +69,6 @@ export const register = (data) => {
 export const login = (data) => {
   return api.post("/login", data);
 };
+
 export default api;
 
